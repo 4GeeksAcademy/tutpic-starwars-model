@@ -45,6 +45,12 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    def serialize_favs(self):
+        return {
+            "favorite_characters": list(map(lambda x:x.serialize(),self.favorite_characters)),
+            "favorite_planets": list(map(lambda x:x.serialize(),self.favorite_planets))
+        }
+
 
 
 class Character(db.Model):
@@ -72,6 +78,10 @@ class Character(db.Model):
             "skin_color": self.skin_color,
             "hair_color": self.hair_color,
             "eye_color": self.eye_color
+        }
+    def serialize_favs(self):
+        return {
+            "user_favorites":list(map(lambda x: x.serialize(),self.user_favorites))
         }
 
 
@@ -101,4 +111,8 @@ class Planet(db.Model):
             "climate": self.climate,
             "terrain": self.terrain,
             "rotation_period": self.rotation_period
+        }
+    def serialize_favs(self):
+        return {
+            "user_favorites":list(map(lambda x: x.serialize(),self.user_favorites))
         }
